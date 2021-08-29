@@ -35,15 +35,23 @@
     <h1 id="test"><b>👋 Gesture Annotations</b></h1>
     <p>by <a href="https://carlkho.notion.site/01e0cce4273a46b1b731afbe170606e6?v=684366b069574560b801a0bd3d00edeb"
             target="_blank">Carl Kho</a> | Check out the code <a href="" target="_blank">here</a></p>
-            <hr />
+    <hr />
     <h3>1.00 = 100% detected.</h3>
     <ul>
-        <li><p>BG = 100% if you are in camera frame (torso up)</p></li>
-        <li><p>Question = 100% if <b>right hand up</b> (preferably face level)</p></li>
-        <li><p>Answer = 100% if <b>left hand up</b> (preferably face level)</p></li>
-        <li><p>AFK = 100% if you are absent from the camera frame</p></li>
+        <li>
+            <p>BG = 100% if you are in camera frame (torso up)</p>
+        </li>
+        <li>
+            <p>Question = 100% if <b>right hand up</b> (preferably face level)</p>
+        </li>
+        <li>
+            <p>Answer = 100% if <b>left hand up</b> (preferably face level)</p>
+        </li>
+        <li>
+            <p>AFK = 100% if you are absent from the camera frame</p>
+        </li>
     </ul>
-    
+
     <div><canvas id="canvas"></canvas></div>
     <div id="labels"></div>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.3.1/dist/tf.min.js"></script>
