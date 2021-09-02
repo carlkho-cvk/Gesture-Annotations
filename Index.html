@@ -5,7 +5,30 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="Assets\Branding SEO\favicon.ico" type="image/x-icon">
+    <title>Gesture Annotations</title>
+
+    <!-- Primary Meta Tags -->
     <title>👋 Gesture Annotations</title>
+    <meta name="title" content="👋 Gesture Annotations">
+    <meta name="description"
+        content="Express your feelings non-verbally by converting your gestures into stickers that appear over your camera feed. Made with 💖 by Carl Kho.">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://gesturestickers.netlify.app/">
+    <meta property="og:title" content="👋 Gesture Annotations">
+    <meta property="og:description"
+        content="Express your feelings non-verbally by converting your gestures into stickers that appear over your camera feed. Made with 💖 by Carl Kho.">
+    <meta property="og:image" content="Assets\Branding SEO\YT Thumbnail NO TEXT.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://gesturestickers.netlify.app/">
+    <meta property="twitter:title" content="👋 Gesture Annotations">
+    <meta property="twitter:description"
+        content="Express your feelings non-verbally by converting your gestures into stickers that appear over your camera feed. Made with 💖 by Carl Kho.">
+    <meta property="twitter:image" content="Assets\Branding SEO\YT Thumbnail NO TEXT.png">
 
     <style>
         body {
@@ -26,37 +49,53 @@
             text-decoration: none;
             color: #FFA411;
         }
+
+        .button {
+            padding: 100px 50px 100px 50px;
+            background-color: #FFA411;
+            color: #333;
+        }
     </style>
 
 </head>
 
 <body onload="init()">
-
-    <h1 id="test"><b>👋 Gesture Annotations</b></h1>
-    <p>Specific Gestures → overlay stickers. by <a
-            href="https://carlkho.notion.site/01e0cce4273a46b1b731afbe170606e6?v=684366b069574560b801a0bd3d00edeb"
-            target="_blank">Carl Kho</a> | Check out the code <a href="" target="_blank">here</a></p>
+    <div id="Title">
+        <h1><b>👋 Gesture Annotations</b></h1>
+        <p>Specific Gestures → overlayed stickers. by <a
+                href="https://carlkho.notion.site/01e0cce4273a46b1b731afbe170606e6?v=684366b069574560b801a0bd3d00edeb"
+                target="_blank"><b>Carl Kho</b></a> | Check out the code <a href="" target="_blank">here</a></p>
+    </div>
     <hr />
     <br />
-    <p><b>Expected Output:</b></p>
-    <img src="Expected Output.jpg" style="max-height: 200px;" />
-    <br />
-    <br />
-    <h3>1.00 = 100% detected.</h3>
-    <ul>
-        <li>
-            <p>BG = 100% if you are <b>in</b> the camera frame (torso up)</p>
-        </li>
-        <li>
-            <p>Question = 100% if <b>right hand up</b> (preferably face level)</p>
-        </li>
-        <li>
-            <p>Answer = 100% if <b>left hand up</b> (preferably face level)</p>
-        </li>
-        <li>
-            <p>AFK = 100% if you are <b>absent</b> from the camera frame (like getting a glass of water)</p>
-        </li>
-    </ul>
+    <div id="instructions">
+        <p><b>Expected Output:</b></p>
+        <img src="Expected Output.jpg" style="max-height: 200px;" />
+        <br />
+        <br />
+        <h3>1.00 = 100% detected.</h3>
+        <ul>
+            <li>
+                <p>BG = 100% if you are <b>in</b> the camera frame (torso up)</p>
+            </li>
+            <li>
+                <p>Question = 100% if <b>right hand up</b> (preferably face level)</p>
+            </li>
+            <li>
+                <p>Answer = 100% if <b>left hand up</b> (preferably face level)</p>
+            </li>
+            <li>
+                <p>AFK = 100% if you are <b>absent</b> from the camera frame (like getting a glass of water)</p>
+            </li>
+        </ul>
+    </div>
+
+    <!-- to greenscreen page + stickers popups -->
+    <a href="greenScreen.html">
+        <div class="button">
+            Go
+        </div>
+    </a>
 
     <div><canvas id="canvas"></canvas></div>
     <div id="labels"></div>
@@ -70,18 +109,9 @@
         const URL = "https://teachablemachine.withgoogle.com/models/DmFqGqfvT/";
         let model, webcam, ctx, labelContainer, maxPredictions;
 
-        let AFK;
-        let AFKFade = 0;
-
-        let labels = "";
-
         async function init() {
             const modelURL = URL + "model.json";
             const metadataURL = URL + "metadata.json";
-
-            // CARlS ADD ONS
-
-            const AFK = ("Pose\Assets\AFK.png");
 
             // load the model and metadata
             // Refer to tmImage.loadFromFiles() in the API to support files from a file picker
@@ -90,12 +120,13 @@
             maxPredictions = model.getTotalClasses();
 
             // Convenience function to setup a webcam
-            const size = 500;
-            const flip = true; // whether to flip the webcam
-            webcam = new tmPose.Webcam(size, size, flip); // width, height, flip
-            await webcam.setup(); // request access to the webcam
-            await webcam.play();
-            window.requestAnimationFrame(loop);
+            // I disabled the camera so that i may use the camera in my OBS. Current setup does not support Multi-camera use.
+            // const size = 500;
+            // const flip = true; // whether to flip the webcam
+            // webcam = new tmPose.Webcam(size, size, flip); // width, height, flip
+            // await webcam.setup(); // request access to the webcam
+            // await webcam.play();
+            // window.requestAnimationFrame(loop);
 
             // append/get elements to the DOM
             const canvas = document.getElementById("canvas");
@@ -124,6 +155,22 @@
                 const classPrediction =
                     prediction[i].className + ": " + prediction[i].probability.toFixed(2);
                 labelContainer.childNodes[i].innerHTML = classPrediction;
+                console.log(classPrediction);
+
+                // append Img Overlay
+                if (classPrediction == "BG: 1.00") {
+
+                    // document.getElementById("instructions").style.color = "magenta";
+                } else if (classPrediction == "AFK: 1.00") {
+                    // document.getElementById("Title").style.color = "blue";
+                } else if (classPrediction == "Question: 1.00") {
+                    // document.getElementById("labels").style.color = "green";
+                } else if (classPrediction == "Answer: 1.00") {
+                    // document.getElementById("Title").style.color = "yellow";
+                } else {
+                    // document.body.style.color = "#333";
+                }
+
             }
 
             // finally draw the poses
@@ -139,17 +186,9 @@
                     tmPose.drawKeypoints(pose.keypoints, minPartConfidence, ctx);
                     tmPose.drawSkeleton(pose.keypoints, minPartConfidence, ctx);
                 }
-
-                if (labels == 'AFK') {
-                    document.getElementById("test").style.color = "blue";
-                }
-                if (AFKFade > 0) {
-                    tint(255, AFKFade);
-                    image(AFK, 0, 0);
-                    AFKFade -= 10;
-                }
             }
         }
+
     </script>
 
 </body>
