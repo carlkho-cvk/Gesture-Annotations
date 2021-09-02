@@ -121,12 +121,12 @@
 
             // Convenience function to setup a webcam
             // I disabled the camera so that i may use the camera in my OBS. Current setup does not support Multi-camera use.
-            // const size = 500;
-            // const flip = true; // whether to flip the webcam
-            // webcam = new tmPose.Webcam(size, size, flip); // width, height, flip
-            // await webcam.setup(); // request access to the webcam
-            // await webcam.play();
-            // window.requestAnimationFrame(loop);
+            const size = 500;
+            const flip = true; // whether to flip the webcam
+            webcam = new tmPose.Webcam(size, size, flip); // width, height, flip
+            await webcam.setup(); // request access to the webcam
+            await webcam.play();
+            window.requestAnimationFrame(loop);
 
             // append/get elements to the DOM
             const canvas = document.getElementById("canvas");
